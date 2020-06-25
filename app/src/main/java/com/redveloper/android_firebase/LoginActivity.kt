@@ -18,12 +18,25 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         btn_login.setOnClickListener {
-            loginAnonymus()
+            val email = et_email.text.toString().trim()
+            val password = et_katasandi.text.toString().trim()
+            loginEmailPassword(email, password)
         }
     }
 
     fun loginAnonymus(){
         auth.signInAnonymously().addOnCompleteListener(this){ task ->
+            if (task.isSuccessful){
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                Toast.makeText(this, "Gagal Login", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun loginEmailPassword(email: String, password: String){
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this){
+            task ->
             if (task.isSuccessful){
                 startActivity(Intent(this, MainActivity::class.java))
             } else {

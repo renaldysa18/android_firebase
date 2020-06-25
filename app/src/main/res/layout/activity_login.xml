@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".LoginActivity">
+
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/et_katasandi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="kata sandi"
+        android:inputType="textPassword"
+        android:maxLines="1" />
 
     <Button
         android:id="@+id/btn_login"
-        android:text="Login Anonymus"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Login Anonymus" />
 
 </LinearLayout>
