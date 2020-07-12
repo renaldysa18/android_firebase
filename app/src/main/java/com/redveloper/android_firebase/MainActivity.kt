@@ -1,5 +1,6 @@
 package com.redveloper.android_firebase
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Adapter.AdapterView {
 
     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -16,6 +17,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         getData()
+    }
+
+    override fun onItemClick(position: Int) {
+        val bundle = Bundle()
+        bundle.putInt("keyPosition", position)
+        val intent = Intent(this, UpdateActivity::class.java)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     fun getData(){
@@ -42,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showData(listModel: ArrayList<Model>) {
         val viewManager : RecyclerView.LayoutManager = LinearLayoutManager(this)
-        val viewAdapter : Adapter = Adapter(listModel)
+        val viewAdapter : Adapter = Adapter(listModel, this)
 
         recyclerview.apply {
             layoutManager = viewManager
