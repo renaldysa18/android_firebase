@@ -18,6 +18,13 @@
         android:layout_height="50dp"
         tools:ignore="TextFields" />
 
+    <EditText
+        android:hint="warna"
+        android:id="@+id/et_warna"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
     <Button
         android:id="@+id/btn_update"
         android:text="Update"

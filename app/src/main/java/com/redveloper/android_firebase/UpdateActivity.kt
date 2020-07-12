@@ -27,19 +27,23 @@ class UpdateActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.btn_update -> updateData(
-                et_nama.text.toString()
+                et_nama.text.toString(),
+                et_warna.text.toString()
             )
         }
     }
 
-    fun updateData(nama : String){
+    fun updateData(nama : String, warna: String){
         val ref = database.getReference("barangs").child(position.toString())
-        ref.child("nama").setValue(nama).addOnCompleteListener {
+        val mapData : HashMap<String, String> = HashMap()
+        mapData.put("nama", nama)
+        mapData.put("warna", warna)
+        ref.updateChildren(mapData as Map<String, Any>).addOnCompleteListener {
             task ->
             if (task.isSuccessful){
                 toMain()
             } else {
-                Toast.makeText(this, "gagal update", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Gagal update data", Toast.LENGTH_SHORT).show()
             }
         }
     }
