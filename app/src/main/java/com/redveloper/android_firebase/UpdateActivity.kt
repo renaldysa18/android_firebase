@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_update.*
 
 class UpdateActivity : AppCompatActivity(), View.OnClickListener {
@@ -19,9 +19,12 @@ class UpdateActivity : AppCompatActivity(), View.OnClickListener {
 
         if (intent.extras != null){
             this.position = intent.getIntExtra("keyPosition", 0)
+
+            getData()
         }
 
         btn_update.setOnClickListener(this)
+        btn_delete.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -30,6 +33,7 @@ class UpdateActivity : AppCompatActivity(), View.OnClickListener {
                 et_nama.text.toString(),
                 et_warna.text.toString()
             )
+            R.id.btn_delete -> deleteData()
         }
     }
 
@@ -44,6 +48,39 @@ class UpdateActivity : AppCompatActivity(), View.OnClickListener {
                 toMain()
             } else {
                 Toast.makeText(this, "Gagal update data", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun getData(){
+        val ref = database.getReference("barangs").child(position.toString())
+        ref.addListenerForSingleValueEvent(object  : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val nama : String = snapshot.child("nama").getValue().toString()
+                val warna : String = snapshot.child("warna").getValue().toString()
+
+                showData(nama, warna)
+            }
+        })
+    }
+
+    fun showData(nama : String, warna : String){
+        et_nama.setText(nama)
+        et_warna.setText(warna)
+    }
+
+    fun deleteData(){
+        val ref = database.getReference("barangs").child(position.toString())
+        ref.removeValue().addOnCompleteListener {
+            task ->
+            if (task.isSuccessful){
+                toMain()
+            } else {
+                Toast.makeText(this, "Gagal delete data", Toast.LENGTH_SHORT).show()
             }
         }
     }
